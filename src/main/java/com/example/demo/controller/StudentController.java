@@ -30,10 +30,10 @@ public class StudentController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-//    @GetMapping("/{id}")
-//    public ResponseEntity<Student> findById(@PathVariable Long id) {
-//        return new ResponseEntity<>(studentService.findById(id).get(), HttpStatus.OK);
-//    }
+    @GetMapping("/{id}")
+    public ResponseEntity<Student> findById(@PathVariable Long id) {
+        return new ResponseEntity<>(studentService.findById(id).get(), HttpStatus.OK);
+    }
 
     @PutMapping("/{id}")
     public ResponseEntity<Student> updateStudent(@PathVariable Long id, @RequestBody Student student) {

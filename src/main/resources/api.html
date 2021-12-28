@@ -115,7 +115,7 @@
                         '<input type="text" placeholder="name" id="name" value="' + data.name + '">\n' +
                         '<input type="text" placeholder="score" id="score" value="' + data.score + '">\n' +
                         '<input type="text" placeholder="age" id="age" value="' + data.age + '">\n' +
-                        "    <select id=\"classes\">;"
+                        "    <select id=\"clazz\">;"
                     $.ajax({
                         type: "GET",
                         url: "http://localhost:8080/api/classes/",
@@ -123,10 +123,9 @@
                             console.log(data1)
                             for (let i = 0; i < data1.length; i++) {
                                 res += `<option value="${data1[i].id}">${data1[i].name}</option>`
-
                             }
                             res += '<select>' + '<button onclick="saveEdit(' + data.id + ')">Save</button>'
-                            document.getElementById('div1').innerHTML = res;
+                            document.getElementById('display').innerHTML = res;
                         },
                         error: function (error) {
                         }
@@ -140,8 +139,8 @@
                 name: document.getElementById("name").value,
                 score: document.getElementById("score").value,
                 age: document.getElementById("age").value,
-                classes: {
-                    id: document.getElementById("classes").value,
+                clazz: {
+                    id: document.getElementById("clazz").value,
                 }
             }
             console.log(student)
@@ -195,7 +194,7 @@
 <button onclick="showFormAdd()">thêm</button>
 <input id="key" type="text">
 <button onclick="search()">find</button>
-
+<!--<div id="div1"></div>-->
 
 <div id="display"></div>
 </body>
