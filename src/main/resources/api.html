@@ -3,78 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            border: 1px solid;
+        }
+
+        td, tr, th {
+            border: 1px solid;
+        }
+    </style>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript">
-        function getAllClass(){
+        function getAllClass() {
             $.ajax({
                 type: "GET",
                 url: "http://localhost:8080/api/classes",
-                success: function (nal){
+                success: function (nal) {
                     console.log(nal)
                     displayName(nal)
                 }
             })
         }
-        function displayName(array){
-            let res=""
+
+        function displayName(array) {
+            let res = "<table>\n" +
+                "    <tr>\n" +
+                "        <th> Tên</th>\n" +
+                "        <th> Tuổi</th>\n" +
+                "        <th> score</th>\n" +
+                "        <th> class</th>\n" +
+                "        <th> Sửa</th>\n" +
+                "        <th> Xóa</th>\n" +
+                "    </tr>"
             for (let i = 0; i < array.length; i++) {
-                res+=array[i].name+
-                    "<button onclick='showFormEdit(" + array[i].id + ")'>Edit</button><br>",
-                    "<button onclick='deleteById(" + array[i].id + ")'>Delete</button>";
+                res += "<tr>" + "<td>" + array[i].name + "</td>\n" +
+                        "<td>" + array[i].age + "</td>\n" +
+                        "<td>" + array[i].score + "</td>\n" +
+                        "<td>" + array[i].clazz.name + "</td>\n" +
+                    "<td>" +"<button onclick='showFormEdit(" + array[i].id + ")'>Edit</button>" + "</td>\n" +
+                    "<td>" +"<button onclick='deleteById(" + array[i].id + ")'>Delete</button><br>"+ "</td>\n"
+                "</tr>"
             }
-            document.getElementById("display").innerHTML= res;
+
+            res += " </table>"
+            document.getElementById("display").innerHTML = res;
         }
 
 
-        function getAllStudent(){
+        function getAllStudent() {
             $.ajax({
                 type: "GET",
                 url: "http://localhost:8080/api/students",
-                success:function (nal){
+                success: function (nal) {
                     console.log(nal)
                     displayName(nal.content)
                 }
             })
         }
 
-        function showFormAdd(){
-            let res='<input type="text" id="name">\n' +
+        function showFormAdd() {
+            let res = '<input type="text" id="name">\n' +
                 '<input type="text" id="score">\n' +
-                '<input type="text" id="age">'+
+                '<input type="text" id="age">' +
                 '<select id="clazz">';
             $.ajax({
-                type:"GET",
+                type: "GET",
                 url: "http://localhost:8080/api/classes",
-                success: function (nal){
+                success: function (nal) {
                     for (let i = 0; i < nal.length; i++) {
-                        res+=`<option value="${nal[i].id}">${nal[i].name}</option>`
+                        res += `<option value="${nal[i].id}">${nal[i].name}</option>`
                     }
-                    res+='</select>'+
+                    res += '</select>' +
                         '<button onclick="add()">thêm</button>'
-                    document.getElementById("display").innerHTML=res
+                    document.getElementById("display").innerHTML = res
                 }
             })
         }
-        function add(){
-            let data={
-                name:document.getElementById('name').value,
-                score:document.getElementById('score').value,
-                age:document.getElementById('age').value,
-                clazz:{
-                    id:document.getElementById('clazz').value
+
+        function add() {
+            let data = {
+                name: document.getElementById('name').value,
+                score: document.getElementById('score').value,
+                age: document.getElementById('age').value,
+                clazz: {
+                    id: document.getElementById('clazz').value
                 }
             }
             console.log(data)
             $.ajax({
-                headers:{
+                headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
                 },
-                type:'POST',
+                type: 'POST',
                 url: "http://localhost:8080/api/students",
-                data:JSON.stringify(data),
-                success:getAllStudent(),
-                error : function (error){
+                data: JSON.stringify(data),
+                success: getAllStudent(),
+                error: function (error) {
                     console.log(error)
                 }
             })
@@ -169,7 +195,6 @@
 <button onclick="showFormAdd()">thêm</button>
 <input id="key" type="text">
 <button onclick="search()">find</button>
-
 
 
 <div id="display"></div>
